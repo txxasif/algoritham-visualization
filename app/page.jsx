@@ -23,6 +23,7 @@ export default function Home() {
   const bars = useSelector(barsSelector);
   const numberOfBars = useSelector(numberOfBarsSelector);
   const dispatch = useDispatch();
+  let lol;
   const PRIMARY_COLOR = "turquoise";
   const check = useSelector(isSortingDoneSelector);
 
