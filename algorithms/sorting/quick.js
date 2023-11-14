@@ -32,6 +32,11 @@ export default function Quick_Sort_Helper(barArray, bar) {
               two.backgroundColor = END_COLOR;
             }
             if (i === ani.length - 1) {
+              for (let val of bar) {
+                setTimeout(() => {
+                  val.style.backgroundColor = PRIMARY_COLOR;
+                }, 2 * ANIMATION_SPEED_MS);
+              }
               resolve("done");
             }
           }, i * ANIMATION_SPEED_MS);

@@ -1,7 +1,9 @@
 "use client";
 import { Bubble_Sort_Helper } from "@/algorithms/sorting/bubble";
+import Insertion_Sort_Helper from "@/algorithms/sorting/insertion";
 import { Merge_Sort_Helper } from "@/algorithms/sorting/merge";
 import Quick_Sort_Helper from "@/algorithms/sorting/quick";
+import Selection_Sort_Helper from "@/algorithms/sorting/selection";
 import { ChangeBarsNumber } from "@/components/redux-provider/slider/slider";
 import TopBar from "@/components/top-bar/topbar";
 import Bubble_Sort from "@/sortingHelper/bubble";
@@ -31,6 +33,7 @@ export default function Home() {
     dispatch(setSortingCheck(true));
     await Promise.all([Bubble_Sort_Helper(barArray, bar)]).then(() => {
       dispatch(setSortingCheck(false));
+
       console.log("done");
     });
   };
@@ -54,7 +57,29 @@ export default function Home() {
       console.log("done");
     });
   };
-
+  const insertionSort = async (e) => {
+    e.preventDefault();
+    const barArray = [...bars];
+    const bar = document.getElementsByClassName("array-bar");
+    dispatch(setSortingCheck(true));
+    await Promise.all([Insertion_Sort_Helper(barArray, bar)]).then(() => {
+      dispatch(setSortingCheck(false));
+      console.log("done");
+    });
+  };
+  const selectionSort = async (e) => {
+    e.preventDefault();
+    const barArray = [...bars];
+    const bar = document.getElementsByClassName("array-bar");
+    dispatch(setSortingCheck(true));
+    await Promise.all([Selection_Sort_Helper(barArray, bar)]).then(() => {
+      dispatch(setSortingCheck(false));
+      console.log("done");
+    });
+  };
+  const generateNewArray = () => {
+    dispatch(setBarsOnInitialLoad(numberOfBars));
+  };
   useEffect(() => {
     dispatch(setBarsOnInitialLoad(numberOfBars));
   }, [numberOfBars]);
@@ -65,6 +90,9 @@ export default function Home() {
         bubbleSort={bubbleSort}
         mergeSort={mergeSort}
         quickSort={quickSort}
+        insertionSort={insertionSort}
+        generateNewArray={generateNewArray}
+        selectionSort={selectionSort}
       />
 
       <div className="container flex  flex-col space-y-4 w-full items-center  justify-center  ">

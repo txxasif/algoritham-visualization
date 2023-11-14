@@ -9,9 +9,6 @@ import Insertion_Sort from "@/sortingHelper/insertion";
 export default function Insertion_Sort_Helper(barArray, bar) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      this.setState({ bars: "auto" });
-    }, 50);
-    setTimeout(() => {
       const ani = Insertion_Sort(barArray);
 
       for (let i = 0; i < ani.length; i++) {
@@ -32,6 +29,11 @@ export default function Insertion_Sort_Helper(barArray, bar) {
             newHeight.height = `${2 * barHeight}px`;
 
             if (i === ani.length - 1) {
+              for (let val of bar) {
+                setTimeout(() => {
+                  val.style.backgroundColor = PRIMARY_COLOR;
+                }, 2 * ANIMATION_SPEED_MS);
+              }
               resolve("done");
             }
           }, i * ANIMATION_SPEED_MS);
