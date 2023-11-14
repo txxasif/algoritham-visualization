@@ -1,0 +1,100 @@
+"use client";
+import Bubble_Sort from "@/sortingHelper/bubble";
+import { barsSelector } from "@/store/barSlice/barSelector";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+export default function Home() {
+  const arr = useSelector(barsSelector);
+  console.log(arr, "");
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  const ANIMATION_SPEED_MS = 2;
+  const PRIMARY_COLOR = "turquoise";
+  const SECONDARY_COLOR = "red";
+  const END_COLOR = "#181540";
+  const [bars, setBars] = useState([]);
+  const [numberOfBars, setNumberOfBars] = useState(100);
+  const bubbleSort = (e) => {
+    e.preventDefault();
+    setTimeout(() => {
+      const bar = document.getElementsByClassName("array-bar");
+      const animation = Bubble_Sort(bars);
+      for (let i = 0; i < animation.length; i++) {
+        const isChanging = i % 3 !== 2;
+        if (isChanging) {
+          const [x, y] = animation[i];
+          const barOne = bar[x].style;
+          const barTwo = bar[y].style;
+          const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+          setTimeout(() => {
+            barOne.backgroundColor = color;
+            barTwo.backgroundColor = color;
+          }, i * ANIMATION_SPEED_MS);
+        } else {
+          setTimeout(() => {
+            const [w, x, y, z, m] = animation[i];
+
+            console.log(bar[w].style.height, bar[y].style.height, x, z, " 1");
+            bar[w].style.height = `${2 * x}px`;
+            bar[y].style.height = `${2 * z}px`;
+            console.log(bar[w].style.height, bar[y].style.height, " 2");
+            if (m === "last") {
+              const s = bar[y].style;
+              const color = END_COLOR;
+              s.backgroundColor = color;
+            }
+            if (i === animation.length - 1) {
+              const s = bar[0].style;
+              s.backgroundColor = END_COLOR;
+            }
+          }, i * ANIMATION_SPEED_MS);
+        }
+      }
+    }, 60);
+  };
+  function setArrayBars() {
+    const array = [];
+    if (numberOfBars > 30) {
+      for (let i = 0; i < numberOfBars; i++) {
+        let value = randomIntFromInterval(5, 200);
+
+        array.push(value);
+      }
+    } else {
+      for (let i = 0; i < numberOfBars; i++) {
+        let value = randomIntFromInterval(5, 200);
+
+        array.push(value);
+      }
+    }
+    console.log(array);
+    setBars(array);
+  }
+  useEffect(() => {
+    setArrayBars();
+  }, []);
+
+  return (
+    <main className="">
+      <button onClick={bubbleSort}>Bubble</button>
+      <div className="container flex space-x-1  justify-center">
+        {bars.map((value, idx) => {
+          return (
+            <div
+              className="array-bar"
+              style={{
+                backgroundColor: PRIMARY_COLOR,
+                height: `${2 * value}px`,
+                width: "2px",
+              }}
+              key={idx}
+            ></div>
+          );
+        })}
+      </div>
+    </main>
+  );
+}
